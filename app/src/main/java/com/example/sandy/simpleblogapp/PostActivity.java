@@ -26,7 +26,7 @@ public class PostActivity extends AppCompatActivity {
     private Button submitButton;
 
     private Uri imageUri=null;
-
+//comment added
     private static final  int GALLERY_REQUEST=1;
 
     private StorageReference storageReference;
