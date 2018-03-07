@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -26,10 +28,11 @@ public class PostActivity extends AppCompatActivity {
     private Button submitButton;
 
     private Uri imageUri=null;
-//comment added
+
     private static final  int GALLERY_REQUEST=1;
 
     private StorageReference storageReference;
+    private DatabaseReference databaseReference;
 
     private ProgressDialog progressDialog;
 
@@ -39,6 +42,7 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         storageReference= FirebaseStorage.getInstance().getReference();
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Blog");
 
         imageButton=(ImageButton)findViewById(R.id.imageButton);
         titleEditText=(EditText)findViewById(R.id.titleEditText);
@@ -71,8 +75,8 @@ public class PostActivity extends AppCompatActivity {
         progressDialog.setMessage("Posting to Blog...");
         progressDialog.show();
 
-        String title_val=titleEditText.getText().toString().trim();
-        String desc_val=descEditText.getText().toString().trim();
+        final String title_val=titleEditText.getText().toString().trim();
+        final String desc_val=descEditText.getText().toString().trim();
 
         if(!TextUtils.isEmpty(title_val)&&!TextUtils.isEmpty(desc_val)&&imageUri!=null){
 
@@ -83,13 +87,18 @@ public class PostActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                     Uri downloadUrl=taskSnapshot.getDownloadUrl();
+
+                    DatabaseReference newPost=databaseReference.push();
+
+                    newPost.child("title").setValue(title_val);
+                    newPost.child("desc").setValue(desc_val);
+                    newPost.child("image").setValue(downloadUrl.toString());
+
                     progressDialog.dismiss();
 
                 }
             });
 
-        }else {
-            Toast.makeText(this, "something wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
