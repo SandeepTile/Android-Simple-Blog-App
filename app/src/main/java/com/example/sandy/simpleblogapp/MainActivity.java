@@ -54,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Blog");
         mDatabaseUsers=FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mDatabase.keepSynced(true);
         mDatabaseUsers.keepSynced(true);
 
         blogList=(RecyclerView)findViewById(R.id.blog_list);

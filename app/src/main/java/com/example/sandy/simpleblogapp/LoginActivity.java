@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
 
-                    
+
                 }else {
 
 
