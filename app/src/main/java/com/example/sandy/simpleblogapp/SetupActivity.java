@@ -1,5 +1,6 @@
 package com.example.sandy.simpleblogapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,8 @@ public class SetupActivity extends AppCompatActivity {
 
     private StorageReference mStorageImage;
 
+    private ProgressDialog mProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class SetupActivity extends AppCompatActivity {
         mStorageImage= FirebaseStorage.getInstance().getReference().child("Profile_image");
 
         mDatabaseUsers= FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mProgress=new ProgressDialog(this);
 
         mSetupImageButton=(ImageButton)findViewById(R.id.setupImageButton);
         mNameField=(EditText)findViewById(R.id.setupNameFiled);
@@ -81,6 +86,8 @@ public class SetupActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(name) && mImageUri!=null){
 
+            mProgress.setMessage("Finishing setup");
+            mProgress.show();
 
             StorageReference filepath=mStorageImage.child(mImageUri.getLastPathSegment());
 
@@ -92,6 +99,13 @@ public class SetupActivity extends AppCompatActivity {
 
                     mDatabaseUsers.child(user_id).child("name").setValue(name);
                     mDatabaseUsers.child(user_id).child("image").setValue(downloadUri);
+
+                    mProgress.dismiss();
+
+                    Intent loginIntent=new Intent(SetupActivity.this,MainActivity.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(loginIntent);
+
                 }
             });
 
