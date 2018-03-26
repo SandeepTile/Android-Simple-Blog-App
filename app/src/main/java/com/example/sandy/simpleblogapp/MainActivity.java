@@ -2,7 +2,6 @@ package com.example.sandy.simpleblogapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -108,7 +106,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(MainActivity.this,post_key, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this,post_key, Toast.LENGTH_SHORT).show();
+
+                        Intent singleBlogIntent=new Intent(MainActivity.this,BlogSingleActivity.class);
+                        singleBlogIntent.putExtra("blog_id",post_key);
+                        startActivity(singleBlogIntent);
                     }
                 });
 
@@ -242,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void setTitle(String title){
 
-            TextView post_title=(TextView)mView.findViewById(R.id.post_title);
+            TextView post_title=(TextView)mView.findViewById(R.id.singleBlogTitle);
             post_title.setText(title);
         }
 
