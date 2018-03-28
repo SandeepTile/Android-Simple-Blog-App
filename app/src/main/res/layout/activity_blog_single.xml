@@ -39,8 +39,16 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="Post Discription Goes here"
-        android:textSize="16dp"
-        />
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/mSingleRemoveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Remove This Post"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>
